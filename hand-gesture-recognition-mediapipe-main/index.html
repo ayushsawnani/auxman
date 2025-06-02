@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Spotify Redirect</title>
+  <script>
+    window.onload = () => {
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get("code");
+      const error = params.get("error");
+
+      if (code) {
+        document.getElementById("message").textContent = "Authorization successful!";
+        console.log("Authorization code:", code);
+
+        // Optionally: send this code to your backend server
+        /*
+        fetch("http://localhost:8888/exchange", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ code })
+        })
+        .then(response => response.json())
+        .then(data => console.log("Token received:", data));
+        */
+      } else if (error) {
+        document.getElementById("message").textContent = "Error: " + error;
+      } else {
+        document.getElementById("message").textContent = "Waiting for redirect...";
+      }
+    };
+  </script>
+</head>
+<body>
+  <h2>Spotify Authentication</h2>
+  <p id="message">Redirecting...</p>
+</body>
+</html>
