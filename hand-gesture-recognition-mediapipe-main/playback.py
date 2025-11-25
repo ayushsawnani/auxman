@@ -34,7 +34,7 @@ def exchange_token():
         return "", 204  # No content, means preflight accepted
 
     global token_info
-    code = request.json.get("code")
+    code = request.json.get("code")  # type: ignore
     print("📥 Received code from React:", code)
 
     if not code:
