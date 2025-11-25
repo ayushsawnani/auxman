@@ -118,26 +118,23 @@ def control_spotify(action_key):
         )
 
 
-def poll_gesture_api(prev):
+def poll_gesture_api():
     try:
         res = requests.get("http://127.0.0.1:5001/gesture")
         if res.status_code == 200:
             data = res.json()
             gesture = data.get("gesture")
             hand = data.get("hand")
-            print(f"Prev: {prev} Gesture: {gesture}")
-            if prev != gesture:
+            print(f"🖐️ Detected: {gesture} ({hand})")
 
-                print(f"🖐️ Detected: {gesture} ({hand})")
-
-                if gesture == "Close" and hand == "Left":
-                    control_spotify("p")  # pause
-                elif gesture == "Open" and hand == "Left":
-                    control_spotify("r")  # resume
-                if gesture == "Swipe Right" and hand == "Left":
-                    control_spotify("n")  # next
-                elif gesture == "Swipe Left" and hand == "Left":
-                    control_spotify("b")  # back
+            if gesture == "Close" and hand == "Left":
+                control_spotify("p")  # pause
+            elif gesture == "Open" and hand == "Left":
+                control_spotify("r")  # resume
+            if gesture == "Swipe Right" and hand == "Left":
+                control_spotify("n")  # next
+            elif gesture == "Swipe Left" and hand == "Left":
+                control_spotify("b")  # back
         else:
             print(f"Gesture API error: {res.status_code}")
 
@@ -154,7 +151,6 @@ if __name__ == "__main__":
         time.sleep(1)
 
     print("✅ Token ready. Now polling gesture API...")
-    prev_gesture = ""
     while True:
-        prev_gesture = poll_gesture_api(prev_gesture)
+        poll_gesture_api()
         time.sleep(1)
